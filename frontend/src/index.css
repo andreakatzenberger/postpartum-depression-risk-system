@@ -1,0 +1,931 @@
+/* ============================================================
+   Dizajn sistem
+   Paleta je namerno topla i smirujuca - tema je osetljiva,
+   pa se izbegavaju ostre "klinicke" boje i agresivna crvena.
+   ============================================================ */
+
+:root {
+  --bg: #faf7f5;
+  --bg-tint-1: rgba(45, 106, 106, 0.07);
+  --bg-tint-2: rgba(232, 132, 107, 0.07);
+  --surface: #ffffff;
+  --surface-alt: #f4efec;
+  --border: rgba(24, 38, 40, 0.1);
+  --border-strong: rgba(24, 38, 40, 0.18);
+
+  --text: #1b2426;
+  --text-muted: #5e6c6e;
+  --text-faint: #8b989a;
+
+  --primary: #2d6a6a;
+  --primary-hover: #235656;
+  --primary-soft: rgba(45, 106, 106, 0.1);
+  --accent: #e8846b;
+
+  --risk-low: #3f9b6d;
+  --risk-mid: #c8912f;
+  --risk-high: #d0603f;
+
+  --crisis-bg: #fdf2ee;
+  --crisis-border: #e8a892;
+  --crisis-text: #8c3a22;
+
+  --shadow-sm: 0 1px 2px rgba(24, 38, 40, 0.06);
+  --shadow-md: 0 4px 16px rgba(24, 38, 40, 0.08);
+  --shadow-lg: 0 16px 48px rgba(24, 38, 40, 0.12);
+
+  --radius: 14px;
+  --radius-lg: 22px;
+  --maxw: 620px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12181a;
+    --bg-tint-1: rgba(111, 191, 180, 0.08);
+    --bg-tint-2: rgba(240, 147, 122, 0.06);
+    --surface: #1a2226;
+    --surface-alt: #212b30;
+    --border: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.18);
+
+    --text: #e8eeef;
+    --text-muted: #9aabae;
+    --text-faint: #6d7e81;
+
+    --primary: #6fbfb4;
+    --primary-hover: #86cec4;
+    --primary-soft: rgba(111, 191, 180, 0.14);
+    --accent: #f0937a;
+
+    --risk-low: #59bb8a;
+    --risk-mid: #dcae54;
+    --risk-high: #e87f5f;
+
+    --crisis-bg: #2c1f1b;
+    --crisis-border: #7a4736;
+    --crisis-text: #f3c3b0;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% -10%, var(--bg-tint-1), transparent),
+    radial-gradient(ellipse 70% 50% at 90% 0%, var(--bg-tint-2), transparent);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  /* uklanja sivi/plavi bljesak preko dugmeta pri dodiru na mobilnom
+     i ukida odloženo reagovanje na tap */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* env(safe-area-inset-*) sprečava da sadržaj završi ispod
+     zareza i linije za prevlačenje na novijim telefonima */
+  padding: max(28px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right))
+    max(56px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 28px;
+}
+
+.brand__mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(140deg, var(--primary), var(--accent));
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand__name {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.brand__sub {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.3;
+}
+
+/* ============================================================
+   Kartica
+   ============================================================ */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 30px 28px;
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: 24px 19px;
+    border-radius: 18px;
+  }
+}
+
+/* ============================================================
+   Uvodni ekran
+   ============================================================ */
+
+.hero__title {
+  font-size: clamp(25px, 6vw, 33px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 680;
+  margin: 0 0 12px;
+}
+
+.hero__lead {
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+/* ============================================================
+   Izbor režima
+   ============================================================ */
+
+.modes {
+  display: grid;
+  gap: 11px;
+  margin-bottom: 26px;
+}
+
+.mode {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  text-align: left;
+  padding: 17px 18px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+
+.mode:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.mode:active {
+  transform: none;
+}
+
+.mode > svg:last-child {
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.mode:hover > svg:last-child {
+  color: var(--primary);
+}
+
+.mode__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.mode__icon--primary {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.mode__icon--accent {
+  background: rgba(232, 132, 107, 0.13);
+  color: var(--accent);
+}
+
+.mode__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mode__title {
+  font-weight: 640;
+  font-size: 16px;
+  letter-spacing: -0.012em;
+  margin-bottom: 2px;
+}
+
+.mode__desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.done {
+  width: 68px;
+  height: 68px;
+  margin: 6px auto 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--primary-soft);
+  color: var(--primary);
+  animation: pulseIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin: 24px 0 22px;
+}
+
+.stat {
+  background: var(--surface-alt);
+  border-radius: var(--radius);
+  padding: 15px 13px;
+}
+
+.stat__num {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.stat__cap {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.35;
+}
+
+.facts {
+  display: grid;
+  gap: 11px;
+  margin-bottom: 26px;
+}
+
+.fact {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px 15px;
+  background: var(--surface-alt);
+  border-radius: var(--radius);
+  font-size: 14.5px;
+}
+
+.fact svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.fact__text strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+
+.fact__text span {
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   Dugmad
+   ============================================================ */
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 22px;
+  font-weight: 600;
+  font-size: 15.5px;
+  transition: background 0.16s, transform 0.1s, opacity 0.16s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+  width: 100%;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.btn--primary:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 11px 15px;
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.btn--ghost:disabled {
+  opacity: 0.34;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Progres
+   ============================================================ */
+
+.progress {
+  margin-bottom: 26px;
+}
+
+.progress__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 9px;
+  font-size: 12.5px;
+}
+
+.progress__section {
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 11.5px;
+}
+
+.progress__count {
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__track {
+  height: 5px;
+  background: var(--surface-alt);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 99px;
+  transition: width 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   Pitanje
+   ============================================================ */
+
+.question {
+  animation: slideIn 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.question__label {
+  font-size: 20.5px;
+  font-weight: 640;
+  letter-spacing: -0.018em;
+  line-height: 1.32;
+  margin: 0 0 7px;
+}
+
+.question__help {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin: 0 0 21px;
+}
+
+.sensitive-note {
+  background: var(--primary-soft);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 17px;
+}
+
+.options {
+  display: grid;
+  gap: 9px;
+  margin-bottom: 26px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  text-align: left;
+  padding: 15px 17px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 15.5px;
+  font-weight: 500;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+
+.option:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-alt);
+}
+
+.option:active {
+  transform: scale(0.994);
+}
+
+.option--selected {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.option__dot {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.15s;
+}
+
+.option--selected .option__dot {
+  border-color: var(--primary);
+}
+
+.option__dot::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--primary);
+  transform: scale(0);
+  transition: transform 0.17s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.option--selected .option__dot::after {
+  transform: scale(1);
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav .btn--primary {
+  flex: 1;
+}
+
+/* ============================================================
+   Rezultat
+   ============================================================ */
+
+.result {
+  animation: fadeUp 0.44s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.gauge {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin: 4px auto 20px;
+}
+
+.gauge svg {
+  transform: rotate(-90deg);
+}
+
+.gauge__track {
+  stroke: var(--surface-alt);
+}
+
+.gauge__value {
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  stroke-linecap: round;
+}
+
+.gauge__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 1px;
+}
+
+.gauge__pct {
+  font-size: 41px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.gauge__cap {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.verdict {
+  font-size: 22px;
+  font-weight: 660;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.result__lead {
+  color: var(--text-muted);
+  margin: 0 auto 24px;
+  max-width: 44ch;
+  font-size: 15px;
+}
+
+.crisis {
+  background: var(--crisis-bg);
+  border: 1px solid var(--crisis-border);
+  color: var(--crisis-text);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  text-align: left;
+  display: flex;
+  gap: 13px;
+  margin-bottom: 22px;
+  animation: pulseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pulseIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.crisis svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.crisis__title {
+  font-weight: 680;
+  margin-bottom: 3px;
+}
+
+.crisis__body {
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.breakdown {
+  text-align: left;
+  border-top: 1px solid var(--border);
+  padding-top: 19px;
+  margin-top: 24px;
+  margin-bottom: 22px;
+}
+
+.breakdown__title {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 650;
+  color: var(--text-faint);
+  margin-bottom: 13px;
+}
+
+.answer-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.answer-row:last-child {
+  border-bottom: none;
+}
+
+.answer-row__q {
+  color: var(--text-muted);
+}
+
+.answer-row__a {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Stanja
+   ============================================================ */
+
+.state {
+  text-align: center;
+  padding: 34px 10px;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--surface-alt);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.state__text {
+  color: var(--text-muted);
+  font-size: 14.5px;
+}
+
+.error {
+  background: var(--crisis-bg);
+  border: 1px solid var(--crisis-border);
+  color: var(--crisis-text);
+  border-radius: var(--radius);
+  padding: 15px 17px;
+  font-size: 14.5px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+/* ============================================================
+   Administracija
+   ============================================================ */
+
+.admin__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.admin__head .hero__title {
+  margin: 0;
+}
+
+.badge {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 650;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin__section {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 650;
+  color: var(--text-faint);
+  margin: 24px 0 11px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(126px, 1fr));
+  gap: 10px;
+}
+
+.metric {
+  background: var(--surface-alt);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+}
+
+.metric__label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.metric__value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.metric__hint {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.admin__note {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-top: 10px;
+}
+
+.admin__note--center {
+  text-align: center;
+  margin-top: 9px;
+}
+
+.input {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  /* 16px je minimum - ispod toga iOS Safari automatski zumira stranicu
+     kad se polje fokusira, pa korisnik ostane na uvećanom prikazu */
+  font-size: 16px;
+  margin-bottom: 11px;
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.retrain {
+  border-radius: var(--radius);
+  padding: 15px 17px;
+  margin-top: 22px;
+  border: 1px solid var(--border);
+  animation: pulseIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.retrain--ok {
+  background: rgba(63, 155, 109, 0.1);
+  border-color: rgba(63, 155, 109, 0.35);
+}
+
+.retrain--skip {
+  background: var(--surface-alt);
+}
+
+.retrain__title {
+  font-weight: 660;
+  margin-bottom: 3px;
+}
+
+.retrain__body {
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.retrain__compare {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.retrain__compare div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.retrain__compare span {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.retrain__compare strong {
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.admin__retrain {
+  margin-top: 24px;
+}
+
+.admin__back {
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* ============================================================
+   Napomena
+   ============================================================ */
+
+.disclaimer {
+  margin-top: 20px;
+  padding: 0 4px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-faint);
+  text-align: center;
+}

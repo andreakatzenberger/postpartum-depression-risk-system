@@ -1,7 +1,8 @@
 # Frontend — Sistem za procenu rizika od postporođajne depresije
 React (Vite) aplikacija za procenu rizika od postporođajne depresije (PPD). Komunicira sa
 backend-om preko REST API-ja (FastAPI).
-Struktura
+
+Struktura:
 ```
 src/
 ├── App.jsx                    tok kroz aplikaciju (welcome → pitanja → rezultat), #admin ruta bez react-router-a

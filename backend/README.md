@@ -163,9 +163,3 @@ toga preimenovana iz `feeling_anxious` (vidi `db/migrate_rename_feeling_depresse
    mogućih kombinacija atributa, veliki deo Kaggle skupa se ponavlja identično — ~94% redova u
    holdout skupu ima potpuno isti vektor atributa kao neki red u trening skupu, pa RF/KNN delom
    pamte već viđene redove umesto da generalizuju. Ovo dodatno objašnjava nerealno visok AUC.
-
-## Sledeći koraci
-
-- Popuniti broj linije za psihološku podršku
-- Razmotriti prelazak na skup podataka sa faktorima rizika i nezavisnim ishodom (EPDS ili
-  klinička dijagnoza), čime bi se rešila ograničenja 1–3

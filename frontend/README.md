@@ -1,38 +1,33 @@
-# Frontend — Sistem za procenu rizika od postporođajne depresije
-React (Vite) aplikacija za procenu rizika od postporođajne depresije (PPD). Komunicira sa
-backend-om preko REST API-ja (FastAPI).
+# Frontend — Postpartum Depression Risk Assessment System
 
-Struktura:
-```
-src/
-├── App.jsx                    tok kroz aplikaciju (welcome → pitanja → rezultat), #admin ruta bez react-router-a
-├── api/client.js               poziva backend (/predict, /contribute, /admin/*)
-├── data/questions.js           definicije pitanja upitnika
-└── components/
-    ├── Welcome.jsx              početni ekran, izbor režima
-    ├── Questionnaire.jsx        prikaz pitanja i unos odgovora
-    ├── Result.jsx               prikaz procene rizika (režim "Proceni moj rizik")
-    ├── SurveyComplete.jsx       potvrda doprinosa (režim "Doprinesi istraživanju")
-    ├── Admin.jsx                administratorski panel (#admin), pregled statistika i pretreniranje
-    └── Icons.jsx                SVG ikonice
-```
-Aplikacija ima dva režima: "Proceni moj rizik" (`predict`) daje orijentacionu procenu na
-osnovu devet pitanja o simptomima, dok "Doprinesi istraživanju" (`contribute`) dodaje i
-pitanje o samoproceni pa odgovore direktno čuva u skup za treniranje modela.
-Administratorski panel je dostupan na ruti `#admin`.
-Pokretanje
-Potreban je Node.js (18+) i pokrenut backend (podrazumevano
-na portu 8000).
-```
+A React (Vite) application for assessing the risk of postpartum depression (PPD). It communicates
+with the backend through a REST API (FastAPI).
+
+## Structure
+
+The application has two modes. **Assess my risk** (`predict`) gives an approximate risk estimate
+based on nine symptom questions. **Contribute to research** (`contribute`) adds a self-assessment
+question and stores the answers directly in the model's training dataset.
+
+The admin panel is available at the `#admin` route.
+
+## Getting Started
+
+Requires Node.js (18+) and a running backend (by default on port 8000).
+
+```bash
 npm install
 npm run dev
 ```
-Aplikacija po podrazumevanoj vrednosti očekuje backend na `http://<host>:8000`. Ako backend radi
-na drugoj adresi, podesiti je preko env promenljive `VITE_API_URL` (npr. u `.env` fajlu:
+
+By default, the app expects the backend at `http://<host>:8000`. If the backend runs at a different
+address, set it with the `VITE_API_URL` environment variable (e.g. in a `.env` file:
 `VITE_API_URL=http://localhost:8000`).
-Ostale komande:
-```
-npm run build     # produkciona verzija (folder dist/)
-npm run preview   # lokalni pregled produkcione verzije
-npm run lint      # ESLint provera
+
+## Other Commands
+
+```bash
+npm run build     # production build (dist/ folder)
+npm run preview   # local preview of the production build
+npm run lint      # ESLint check
 ```

@@ -1,10 +1,10 @@
-# Sistem za procenu rizika od postporođajne depresije
+# Postpartum Depression Risk Assessment System
 
-Sistem za procenu rizika od postporođajne depresije zasnovan na mašinskom učenju, sa FastAPI backend-om, PostgreSQL bazom podataka i React frontend aplikacijom.
+A machine learning-based system for assessing the risk of postpartum depression, with a FastAPI backend, a PostgreSQL database, and a React frontend.
 
-## Struktura repozitorijuma
+## Repository Structure
 
-- [`backend/`](./backend) — FastAPI servis, model mašinskog učenja i pristup PostgreSQL bazi (detalji u `backend/README.md`)
-- [`frontend/`](./frontend) — React aplikacija za korisnice (detalji u `frontend/README.md`)
+- [`backend/`](./backend) — FastAPI service, machine learning model, and PostgreSQL database access (see `backend/README.md` for details)
+- [`frontend/`](./frontend) — React application for users (see `frontend/README.md` for details)
 
-Za pokretanje svakog dela pogledati README u odgovarajućem folderu.
+To run each part, see the README in the corresponding folder.
